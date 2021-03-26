@@ -9,8 +9,8 @@ import java.util.List;
 @Entity
 public class Account implements Serializable {
 
-    @Id //to set as primary key
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // to set as autoincrement
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int accountNumber;
     private float balance;
 

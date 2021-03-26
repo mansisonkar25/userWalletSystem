@@ -10,9 +10,10 @@ public class Customer implements Serializable {
 
     @Id 
     @GeneratedValue(strategy = GenerationType.IDENTITY) 
-    private int userId;
+    private int customerId;
     private String customerName;
     private String password;
+    private String confirmPassword;
     @Column(unique=true)
     private String email;
 
@@ -27,13 +28,14 @@ public class Customer implements Serializable {
     public Customer() {
     	
     }
-    
-	public Customer(int userId, String customerName, String password, String email, Wallet wallet,
-			List<Account> customerAccounts) {
+   
+	public Customer(int customerId, String customerName, String password, String confirmPassword, String email,
+			Wallet wallet, List<Account> customerAccounts) {
 		super();
-		this.userId = userId;
+		this.customerId = customerId;
 		this.customerName = customerName;
 		this.password = password;
+		this.confirmPassword = confirmPassword;
 		this.email = email;
 		this.wallet = wallet;
 		this.customerAccounts = customerAccounts;
@@ -41,14 +43,16 @@ public class Customer implements Serializable {
 
 
 
-	public int getUserId() {
-		return userId;
+
+
+	public int getCustomerId() {
+		return customerId;
 	}
 
 
 
-	public void setUserId(int userId) {
-		this.userId = userId;
+	public void setCustomerId(int customerId) {
+		this.customerId = customerId;
 	}
 
 
@@ -110,14 +114,27 @@ public class Customer implements Serializable {
 	public void setCustomerAccounts(List<Account> customerAccounts) {
 		this.customerAccounts = customerAccounts;
 	}
+	
+	
 
+	public String getConfirmPassword() {
+		return confirmPassword;
+	}
 
+	public void setConfirmPassword(String confirmPassword) {
+		this.confirmPassword = confirmPassword;
+	}
 
 	@Override
 	public String toString() {
-		return "Customer [userId=" + userId + ", customerName=" + customerName + ", password=" + password + ", email="
-				+ email + ", wallet=" + wallet + ", customerAccounts=" + customerAccounts + "]";
+		return "Customer [customerId=" + customerId + ", customerName=" + customerName + ", password=" + password
+				+ ", confirmPassword=" + confirmPassword + ", email=" + email + ", wallet=" + wallet
+				+ ", customerAccounts=" + customerAccounts + "]";
 	}
+
+
+
+	
     
     
 
