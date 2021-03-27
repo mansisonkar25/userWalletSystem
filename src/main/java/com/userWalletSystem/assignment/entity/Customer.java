@@ -1,7 +1,12 @@
 package com.userWalletSystem.assignment.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
+
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -17,12 +22,13 @@ public class Customer implements Serializable {
     @Column(unique=true)
     private String email;
 
-    @OneToOne(mappedBy = "walletHolderCustomerId")
-    @JsonIgnore
+    @OneToOne(mappedBy = "walletHolderCustomerId",orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@JsonManagedReference
     private Wallet wallet;
 
-    @OneToMany(mappedBy = "accountHolder")
-    @JsonIgnore
+    @OneToMany(mappedBy = "accountHolder",orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@Fetch(value = FetchMode.SUBSELECT)
+	@JsonManagedReference
     private List<Account> customerAccounts;
 
     public Customer() {

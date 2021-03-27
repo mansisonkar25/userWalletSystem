@@ -1,10 +1,14 @@
 package com.userWalletSystem.assignment.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 @Entity
 public class Account implements Serializable {
@@ -14,14 +18,17 @@ public class Account implements Serializable {
     private int accountNumber;
     private float balance;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JsonBackReference
     private Customer accountHolder;
 
-    @ManyToOne
-    @JsonIgnore
+    @ManyToOne(cascade = CascadeType.ALL)
+    //@JsonBackReference
     private Wallet walletHolder;
 
-    @OneToMany(mappedBy = "transactionFromAccount")
+    @OneToMany(mappedBy = "transactionFromAccount",orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@Fetch(value = FetchMode.SUBSELECT)
+	@JsonManagedReference
     private List<Transactions> bankTransactions;
 
     public Account() {

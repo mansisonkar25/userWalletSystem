@@ -1,5 +1,6 @@
 package com.userWalletSystem.assignment.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
@@ -18,8 +19,8 @@ public class Transactions implements Serializable {
     private float balanceAfterTransaction;
     private String status;
 
-    @ManyToOne
-    @JsonIgnore
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JsonBackReference
     private Account transactionFromAccount;
 
     public Transactions() {

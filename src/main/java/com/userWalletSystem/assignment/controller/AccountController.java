@@ -22,18 +22,13 @@ public class AccountController {
 	@PostMapping(value="/api/createAccount",consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ResponseAsEntity> createAccount(@RequestBody Account account) {
 		ResponseAsEntity response=new ResponseAsEntity();		
-        try {
+       
             Account newAcount = accountService.save(account);
             response.setStatus("200");
             response.setDescription("Account created successfully!");
             response.setData(newAcount);
             return new ResponseEntity<>(response, HttpStatus.OK);
-        }
-        catch(CustomerDoesNotExists e) {
-            response.setStatus(String.valueOf(HttpStatus.EXPECTATION_FAILED));
-            response.setDescription(e.getMessage());
-            return new ResponseEntity<>(response, HttpStatus.EXPECTATION_FAILED);
-        }
+        
     }
 
 }

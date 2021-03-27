@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 import com.userWalletSystem.assignment.entity.Account;
 import com.userWalletSystem.assignment.entity.Customer;
-import com.userWalletSystem.assignment.exception.AccountAlreadyExists;
 import com.userWalletSystem.assignment.exception.AccountDoesNotExist;
 import com.userWalletSystem.assignment.exception.CustomerDoesNotExists;
 import com.userWalletSystem.assignment.repository.AccountRepository;
@@ -22,22 +21,8 @@ public class AccountServiceImpl implements AccountService{
     CustomerService customerService;
 	
 	@Override
-	public Account save(Account account) throws CustomerDoesNotExists {
-		Customer existingCustomer=customerService.findByCustomeremail(account.getAccountHolder().getEmail());
+	public Account save(Account account)  {
 		
-        if (existingCustomer == null) {
-            throw new CustomerDoesNotExists(existingCustomer);
-        }
-        
-        else {
-        	account.getAccountHolder().setCustomerId(existingCustomer.getCustomerId());
-        	account.getAccountHolder().setCustomerName(existingCustomer.getCustomerName());
-        	account.getAccountHolder().setEmail(existingCustomer.getEmail());
-        	account.getAccountHolder().setPassword(existingCustomer.getPassword());
-        	account.getAccountHolder().setConfirmPassword(existingCustomer.getConfirmPassword());
-        	
-        }
-        
 		return accountRepository.save(account);
 	}
 
