@@ -24,13 +24,12 @@ public class Transactions implements Serializable {
     private Account transactionFromAccount;
 
     public Transactions() {
-    	
     }
     
-	public Transactions(int transactionId, String type, Date timestamp, float amount, float balanceAfterTransaction,
+	public Transactions( String type, Date timestamp, float amount, float balanceAfterTransaction,
 			String status, Account transactionFromAccount) {
 		super();
-		this.transactionId = transactionId;
+		
 		this.type = type;
 		this.timestamp = timestamp;
 		this.amount = amount;
