@@ -179,31 +179,6 @@ public class WalletController {
 
     }
 
-    @GetMapping("/api/wallet/{walletId}/account/{accountId}/lastNTransactions/{n}")
-    public ResponseEntity<ResponseAsEntity> getStatement(@PathVariable ("walletId") int walletId,
-                                        @PathVariable ("accountId") int accountId,
-                                        @PathVariable ("n") int n) {
-
-    	ResponseAsEntity response = new ResponseAsEntity();
-
-        try {
-            List<Transactions> lb = walletService.getStatement(walletId, accountId, n);
-            response.setStatus("200");
-            response.setDescription("Statement fetched successfully!!");
-            response.setData(lb);
-            return new ResponseEntity<>(response, HttpStatus.OK);
-
-        }catch(WalletIdDoesNotExistException e) {
-            response.setStatus(String.valueOf(HttpStatus.NOT_FOUND));
-            response.setDescription(e.getMessage());
-            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
-        }
-        catch(AccountNotAssociatedWithWalletException e) {
-            response.setStatus(String.valueOf(HttpStatus.EXPECTATION_FAILED));
-            response.setDescription(e.getMessage());
-            return new ResponseEntity<>(response, HttpStatus.EXPECTATION_FAILED);
-        }
-
-    }
+    
 
 }

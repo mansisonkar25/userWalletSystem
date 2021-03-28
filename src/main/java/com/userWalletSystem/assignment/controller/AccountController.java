@@ -19,13 +19,13 @@ public class AccountController {
 	@Autowired
 	private AccountService accountService;
 	
-	@PostMapping(value="/api/createAccount",consumes = MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(value="/api/createCustomerAccount",consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ResponseAsEntity> createAccount(@RequestBody Account account) {
 		ResponseAsEntity response=new ResponseAsEntity();		
        
             Account newAcount = accountService.save(account);
             response.setStatus("200");
-            response.setDescription("Account created successfully!");
+            response.setDescription("Customer Account created successfully!");
             response.setData(newAcount);
             return new ResponseEntity<>(response, HttpStatus.OK);
         

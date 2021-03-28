@@ -10,6 +10,7 @@ import com.userWalletSystem.assignment.exception.CustomerAlreadyHasWalletExcepti
 import com.userWalletSystem.assignment.exception.CustomerDoesNotExists;
 import com.userWalletSystem.assignment.exception.InsufficientBalanceInWalletException;
 import com.userWalletSystem.assignment.exception.WalletIdDoesNotExistException;
+import com.userWalletSystem.assignment.exception.WrongTransactionIdException;
 
 public interface WalletService {
 
@@ -86,6 +87,8 @@ public interface WalletService {
 	     */
 	    public List<Transactions> getStatement(Integer walletId, Integer accountId, Integer n) throws WalletIdDoesNotExistException,
 	            AccountNotAssociatedWithWalletException;
+
+		public Transactions getTransactionStatus(int transactionId) throws WrongTransactionIdException;
 
 	
 }

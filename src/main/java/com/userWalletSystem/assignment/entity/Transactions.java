@@ -17,6 +17,7 @@ public class Transactions implements Serializable {
     private Date timestamp;
     private float amount;
     private float balanceAfterTransaction;
+    private String description;
     private String status;
 
     @ManyToOne(cascade = CascadeType.ALL)
@@ -27,13 +28,14 @@ public class Transactions implements Serializable {
     }
     
 	public Transactions( String type, Date timestamp, float amount, float balanceAfterTransaction,
-			String status, Account transactionFromAccount) {
+			String description,String status,Account transactionFromAccount) {
 		super();
 		
 		this.type = type;
 		this.timestamp = timestamp;
 		this.amount = amount;
 		this.balanceAfterTransaction = balanceAfterTransaction;
+		this.description = description;
 		this.status = status;
 		this.transactionFromAccount = transactionFromAccount;
 	}
@@ -122,15 +124,24 @@ public class Transactions implements Serializable {
 		this.transactionFromAccount = transactionFromAccount;
 	}
 
+	public String getDescription() {
+		return description;
+	}
 
+	public void setDescription(String description) {
+		this.description = description;
+	}
 
 	@Override
 	public String toString() {
 		return "Transactions [transactionId=" + transactionId + ", type=" + type + ", timestamp=" + timestamp
-				+ ", amount=" + amount + ", balanceAfterTransaction=" + balanceAfterTransaction + ", status=" + status
-				+ ", transactionFromAccount=" + transactionFromAccount + "]";
+				+ ", amount=" + amount + ", balanceAfterTransaction=" + balanceAfterTransaction + ", description="
+				+ description + ", status=" + status + ", transactionFromAccount=" + transactionFromAccount + "]";
 	}
-    
+
+
+
+	
     
 
 }

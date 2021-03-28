@@ -26,7 +26,7 @@ public class Account implements Serializable {
     @JsonBackReference
     private Wallet walletHolder;
 
-    @OneToMany(mappedBy = "transactionFromAccount",orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "transactionFromAccount", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@Fetch(value = FetchMode.SUBSELECT)
 	@JsonManagedReference
     private List<Transactions> bankTransactions;

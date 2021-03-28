@@ -21,6 +21,7 @@ import com.userWalletSystem.assignment.exception.CustomerAlreadyHasWalletExcepti
 import com.userWalletSystem.assignment.exception.CustomerDoesNotExists;
 import com.userWalletSystem.assignment.exception.InsufficientBalanceInWalletException;
 import com.userWalletSystem.assignment.exception.WalletIdDoesNotExistException;
+import com.userWalletSystem.assignment.exception.WrongTransactionIdException;
 import com.userWalletSystem.assignment.repository.AccountRepository;
 import com.userWalletSystem.assignment.repository.CustomerRepository;
 import com.userWalletSystem.assignment.repository.TansactionsRepository;
@@ -109,7 +110,7 @@ public class WalletServiceImpl implements WalletService{
 
         // Make Entry in Transaction table
         if ("WITHDRAW".equals(type)) {
-            makeEntryInTransaction("WITHDRAW", amount, ac.getBalance(), "Withdrawn from account ", ac);
+            makeEntryInTransaction("WITHDRAW", amount, ac.getBalance(), "Withdrawn from account ", "SUCCSESSFUL",ac);
         }
         return ac;
     }
@@ -121,8 +122,8 @@ public class WalletServiceImpl implements WalletService{
      * @param description : Custom String description associated with deposit || withdrawl || transfer
      * @param associatedAccount : Account associated with the transaction
      */
-    private void makeEntryInTransaction(String typeOfTransaction, float amount, float postBalance, String description, Account associatedAccount) {
-        Transactions bankTransaction = new Transactions(typeOfTransaction, new Date(), amount, postBalance, description, associatedAccount);
+    private void makeEntryInTransaction(String typeOfTransaction, float amount, float postBalance, String description,String status, Account associatedAccount) {
+        Transactions bankTransaction = new Transactions(typeOfTransaction, new Date(), amount, postBalance, description, status,associatedAccount);
 
         tansactionRepository.save(bankTransaction);
     }
@@ -153,7 +154,7 @@ public class WalletServiceImpl implements WalletService{
         // Make Entry in Transaction table
 
         if ("DEPOSIT".equals(type)) {
-            makeEntryInTransaction("DEPOSIT", amount, ac.getBalance(), "Depositted in account ", ac);
+            makeEntryInTransaction("DEPOSIT", amount, ac.getBalance(), "Depositted in account ", "SUCCSESSFUL",ac);
         }
 
         return ac;
@@ -190,7 +191,7 @@ public class WalletServiceImpl implements WalletService{
                 .append(amount)
                 .append(" transferred to accountId : ")
                 .append(toAccountId);
-        makeEntryInTransaction("TRANSFER", amount, fromAccount.getBalance(), sb.toString(), fromAccount);
+        makeEntryInTransaction("TRANSFER", amount, fromAccount.getBalance(), sb.toString(),"SUCCSESSFUL" ,fromAccount);
 
 
         // deposit
@@ -201,7 +202,7 @@ public class WalletServiceImpl implements WalletService{
                 .append(amount)
                 .append(" transferred from accountId : ")
                 .append(fromAccountId);
-        makeEntryInTransaction("TRANSFER", amount, toAccount.getBalance(), sb1.toString(), toAccount);
+        makeEntryInTransaction("TRANSFER", amount, toAccount.getBalance(), sb1.toString(),"SUCCSESSFUL" ,toAccount);
 
     }
 
@@ -226,9 +227,24 @@ public class WalletServiceImpl implements WalletService{
         Collections.sort(bankTransactions, new BankTransactionSortingComparator());
 
         // handling length of last N transactions
-        n = bankTransactions.size()>=n?n:bankTransactions.size();
-        return bankTransactions.subList(0, n);
+        //n = bankTransactions.size()>=n?n:bankTransactions.size();
+        //return bankTransactions.subList(0, n);
+        return bankTransactions;
 
     }
+
+	@Override
+	public Transactions getTransactionStatus(int transactionId) throws WrongTransactionIdException {
+		Transactions transaction = tansactionRepository.findById(transactionId).orElse(null);
+
+        // handle walletId does not exist
+        if (transaction==null) {
+            throw new WrongTransactionIdException(transactionId);
+        }
+        
+        return transaction;
+	}
+	
+	
 
 }
