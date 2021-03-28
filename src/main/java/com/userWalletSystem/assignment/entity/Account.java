@@ -23,7 +23,7 @@ public class Account implements Serializable {
     private Customer accountHolder;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    //@JsonBackReference
+    @JsonBackReference
     private Wallet walletHolder;
 
     @OneToMany(mappedBy = "transactionFromAccount",orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER)

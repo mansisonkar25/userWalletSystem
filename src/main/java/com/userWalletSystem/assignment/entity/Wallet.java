@@ -21,7 +21,7 @@ public class Wallet implements Serializable {
 
     @OneToMany(mappedBy = "walletHolder",orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@Fetch(value = FetchMode.SUBSELECT)
-	//@JsonManagedReference
+	@JsonManagedReference
     private List<Account> accountsInWallet;
 
     @OneToOne(cascade = CascadeType.ALL)

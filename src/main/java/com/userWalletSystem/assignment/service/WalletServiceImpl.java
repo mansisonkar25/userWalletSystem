@@ -52,11 +52,15 @@ public class WalletServiceImpl implements WalletService{
         }
 
         Wallet w = new Wallet();
-
+        int accNo=c.getCustomerAccounts().get(0).getAccountNumber();
+        Account a=accountRepository.findAccountByNumber(accNo).get(0);
         w.setWalletHolderCustomerId(c);
         if (c.getCustomerAccounts()!=null && !c.getCustomerAccounts().isEmpty()) {
             w.setAccountsInWallet(new ArrayList<>(c.getCustomerAccounts()));
+            a.setWalletHolder(w);
+            accountRepository.save(a);
         }
+        
         return  walletRepository.save(w);
     }
 
